@@ -1,5 +1,5 @@
 <?php
-$share_url = "https://1drv.ms/f/s!AhzmQMxm1n467DZsz0ev8jKEqskE";
+$share_url = "";
 $path = $_GET['path'];
 
 function get_encodedURL($share_url) {
