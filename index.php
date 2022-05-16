@@ -1,5 +1,5 @@
 <?php
-$share_url = "";
+$share_url = "https://1drv.ms/f/s!AhzmQMxm1n467DZsz0ev8jKEqskE";
 $path = $_GET['path'];
 
 function get_encodedURL($share_url) {
@@ -71,9 +71,27 @@ if ($result['pathvalid'] && $result['isfolder'] == false) {
 
   <body id="index-page">
     <?php
-        // echo count(get_folder_object($share_url)['children']);
-        echo ($result['pathvalid'] ? ($result['isfolder'] ? "path is folder" : ("the download link to file is: " . $result['data']['@content.downloadUrl'])) : "path not valid");
-        // echo "<b>" . substr($path, 1) . "</b> does not exists!";
+        echo "<h1>" . ($result['pathvalid'] ? ($result['isfolder'] ? "Index of " . $path : ("the download link to file is: " . $result['data']['@content.downloadUrl'])) : "Path not valid") . "</h1>" . PHP_EOL;
+        echo "<br>";
+        if ($result['pathvalid'] && $result['isfolder']) {
+            $data = $result['data'];
+            echo "<hr>";
+            if ($path != "/") {
+                echo "<h3 style=\"height:28px;\">" . "<a style=\"text-decoration:none;display: inline-block;height:26px;\" href=\"http" . (isset($_SERVER['HTTPS']) ? "s" : "") . "://" . rtrim($_SERVER['HTTP_HOST'], "/") . implode('/',explode('/',rtrim($path,"/"),-1)) . "/" . "\">" . 
+                "<img alt=\"back icon\" src=\"data:image/svg+xml;base64,R0lGODlhFAAWAMIAAP///8z//5mZmWZmZjMzMwAAAAAAAAAAACH+TlRoaXMgYXJ0IGlzIGluIHRoZSBwdWJsaWMgZG9tYWluLiBLZXZpbiBIdWdoZXMsIGtldmluaEBlaXQuY29tLCBTZXB0ZW1iZXIgMTk5NQAh+QQBAAABACwAAAAAFAAWAAADSxi63P4jEPJqEDNTu6LO3PVpnDdOFnaCkHQGBTcqRRxuWG0v+5LrNUZQ8QPqeMakkaZsFihOpyDajMCoOoJAGNVWkt7QVfzokc+LBAA7\" />" .
+                " " . "<div style=\"display:inline-block;\">" . "Parent Directory" . "</div>" . "</a>" . "</h3>" . PHP_EOL;
+            }
+            foreach ($data['children'] as $item) {
+                echo "<h3 style=\"height:28px;\">" . "<a style=\"text-decoration:none;display: inline-block;height:26px;\" href=\"http" . (isset($_SERVER['HTTPS']) ? "s" : "") . "://" . rtrim($_SERVER['HTTP_HOST'], "/") . ($path == "/" ? "" : rtrim($path,"/")) . "/" . $item['name'] . "\">" . 
+                (isset($item['folder']) ? 
+                "<img style=\"display:inline-block;vertical-align:bottom;\" height=\"24\" alt=\"folder icon\" src=\"data:image/svg+xml;base64,R0lGODlhFAAWAMIAAP/////Mmcz//5lmMzMzMwAAAAAAAAAAACH+TlRoaXMgYXJ0IGlzIGluIHRoZSBwdWJsaWMgZG9tYWluLiBLZXZpbiBIdWdoZXMsIGtldmluaEBlaXQuY29tLCBTZXB0ZW1iZXIgMTk5NQAh+QQBAAACACwAAAAAFAAWAAADVCi63P4wyklZufjOErrvRcR9ZKYpxUB6aokGQyzHKxyO9RoTV54PPJyPBewNSUXhcWc8soJOIjTaSVJhVphWxd3CeILUbDwmgMPmtHrNIyxM8Iw7AQA7\" />" 
+                : 
+                "<img style=\"display:inline-block;vertical-align:bottom;\" alt=\"file icon\" src=\"data:image/svg+xml;base64,R0lGODlhFAAWAMIAAP///8z//5mZmTMzMwAAAAAAAAAAAAAAACH+TlRoaXMgYXJ0IGlzIGluIHRoZSBwdWJsaWMgZG9tYWluLiBLZXZpbiBIdWdoZXMsIGtldmluaEBlaXQuY29tLCBTZXB0ZW1iZXIgMTk5NQAh+QQBAAABACwAAAAAFAAWAAADWDi6vPEwDECrnSO+aTvPEddVIriN1wVxROtSxBDPJwq7bo23luALhJqt8gtKbrsXBSgcEo2spBLAPDp7UKT02bxWRdrp94rtbpdZMrrr/A5+8LhPFpHajQkAOw==\" />"
+                ) . 
+                " " . "<div style=\"display:inline-block;\">" . $item['name'] . "</div>" . "</a>" . "</h3>" . PHP_EOL;
+            }
+            echo "<hr>";
+        }
     ?>
   </body>
 </html>
